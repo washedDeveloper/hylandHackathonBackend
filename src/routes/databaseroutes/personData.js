@@ -29,13 +29,16 @@ routes.get('/:userID', async (req, res) => {
 
       for (let row of scheduleData) {
         classPromises.push(dbhandler.getClassData(row.ClassID));
+        // TODO: IMPLEMENT BELOW
+        //classPromises.push(dbhandler.getAssignments(row.ClassID));
       }
 
       Promise.all(classPromises).then( values => {
-        for (let i of values) {
+        for (let i = 0; i < values.length; i += 2) {
           classesArr.push({
-            classID: i.ClassID,
-            className: i.ClassName
+            classID: values[i].ClassID,
+            className: values[i].ClassName,
+            assignments: values[i + 1]
           });
         }
       });
