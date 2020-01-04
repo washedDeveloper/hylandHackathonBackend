@@ -34,7 +34,7 @@ routes.get('/:userID', async (req, res) => {
       }
 
       Promise.all(classPromises).then( values => {
-        for (let i = 0; i < values.length; i += 2) {
+        for (let i = 0; i < values.length - 1; i += 2) {
           classesArr.push({
             classID: values[i].ClassID,
             className: values[i].ClassName,
