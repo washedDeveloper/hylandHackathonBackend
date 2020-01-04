@@ -67,6 +67,7 @@ exports.createUser = (un, pw, name, em, schoolID, schoolName, schoolAddress)=>{
         console.log("New User Created!");
     });
 
+   
     const schoolAdd = `INSERT INTO SCHOOLS (SchoolID, Name, Address) VALUES ('${schoolID}', '${schoolName}', '${schoolAddress}')`;
     db.run(schoolAdd, [], err => {
         if (err) console.error(err);
