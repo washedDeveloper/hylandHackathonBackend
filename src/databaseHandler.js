@@ -33,7 +33,7 @@ exports.getUserSchool = (userSchoolID) => {
 
 exports.getUserSchedule = (id) => {
     return new Promise( (resolve, reject) => {
-        const get = `SELECT ClassID FROM USERSCHEDULE WHERE UserID = ${id}`;
+        const get = `SELECT ClassID FROM USERSCHEDULE WHERE UserID = '${id}'`;
         db.all(get, (err, rows) => {
             if (err) reject(err);
 

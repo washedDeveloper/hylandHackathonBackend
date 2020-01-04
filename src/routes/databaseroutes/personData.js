@@ -11,9 +11,10 @@ routes.get('/:userID', async (req, res) => {
       email: userData.Email
     }
 
+    
     const schoolPromise = dbhandler.getUserSchool(userData.SchoolID);
     const schedulePromise = dbhandler.getUserSchedule(req.params.userID);
-
+    
     Promise.all([schoolPromise, schedulePromise]).then( values => {
       [schoolData, scheduleData] = values;
 
@@ -22,11 +23,15 @@ routes.get('/:userID', async (req, res) => {
         name: schoolData.Name,
         address: schoolData.Address
       }
+      console.log("AFTER SCHOOL:")
+      console.log(userDetails);
 
       // handle schdule data
       const classesArr = [];
       const classPromises = [];
 
+      console.log("SCHEDULE DATA:");
+      console.log(scheduleData);
       for (let row of scheduleData) {
         classPromises.push(dbhandler.getClassData(row.ClassID));
         // TODO: IMPLEMENT BELOW
@@ -41,9 +46,15 @@ routes.get('/:userID', async (req, res) => {
             assignments: values[i + 1]
           });
         }
+        console.log("AFTER CLASSES");
+        console.log(userDetails);
+      }).catch(err => {
+        console.error(err);
       });
 
       userDetails.Classes = classesArr;
+    }).catch(err => {
+      console.error(err);
     });
 
     console.log(userDetails);
