@@ -50,7 +50,7 @@ exports.createSchool = (id, name, address) => {
 
         console.log("New School Added");
     });
-
+}
 
 exports.login = (un,pw) => {
     return new Promise( (resolve, reject) => {
@@ -66,6 +66,5 @@ exports.login = (un,pw) => {
                 reject()
             }
         })
-    })
+    });
 }
-
