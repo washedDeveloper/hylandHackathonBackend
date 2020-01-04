@@ -32,3 +32,20 @@ exports.createUser = (un, pw, name, em,schoolID)=>{
     });
 }
 
+exports.login = (un,pw) => {
+    return new Promise( (resolve, reject) => {
+        const auth = `SELECT Username, Password FROM USERS WHERE Username = '${un}' AND Password = '${pw}'`
+        db.get(auth, [], (err,row)=>{
+            if (err){
+                console.error(err);
+                reject()
+            }
+            if(row){
+                resolve()
+            }else{
+                reject()
+            }
+        })
+    })
+}
+
