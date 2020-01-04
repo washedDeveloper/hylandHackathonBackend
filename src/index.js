@@ -14,6 +14,9 @@ const create = require("./routes/profileroutes/create");
 // Data routes
 const personData = require("./routes/databaseroutes/personData");
 
+//Middleware Body Parser
+app.use(express.json());
+
 // Default route
 app.use("/", routes);
 
