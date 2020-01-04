@@ -162,3 +162,31 @@ exports.addScheduledClass = (classID, userID) => {
         console.log("Class scheduled for user " + userID);
     });
 }
+
+exports.createLink = (userID,classID,name,url) =>{
+    return new Promise((resolve, reject) => {
+        const create = `INSERT INTO URLS (UserID, ClassID, Name, Url) VALUES ('${userID}', '${classID}', '${name}', '${url}')`
+        db.run(create, [], (err) => {
+            if (err){
+                reject()
+                console.log(err.message);
+            }else{
+                console.log("Successfully Added URL")
+                resolve()
+            }
+        })
+    })
+}
+
+exports.getLink = (classID) => {
+    return new Promise((resolve, reject) => {
+        const get = `SELECT Name, Url FROM URLS WHERE ClassID = '${classID}'`
+        db.all(get, (err, rows)=>{
+            if (err){
+                reject()
+            }else{
+                resolve(rows)
+            }
+        })
+    })
+}

@@ -16,6 +16,7 @@ const personData = require("./routes/databaseroutes/personData");
 const classAssignments = require("./routes/databaseroutes/assignments");
 const userSchedule = require("./routes/databaseroutes/schedule");
 const classes = require("./routes/databaseroutes/class");
+const link = require("./routes/databaseroutes/links");
 
 //Middleware Body Parser
 app.use(express.json());
@@ -40,5 +41,8 @@ app.use("/schedule", userSchedule);
 
 // Route to add classes
 app.use("/class", classes);
+
+//
+app.use("/link", link);
 
 app.listen(3000);
