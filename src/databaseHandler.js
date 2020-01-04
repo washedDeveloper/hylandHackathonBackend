@@ -52,6 +52,16 @@ exports.createUser = (un, pw, name, em, schoolID, schoolName, schoolAddress)=>{
     });
 }
 
+exports.createClass = (schoolID, className, period, teacher) => {
+    const id = uuid();
+    const add = `INSERT INTO CLASSROOM (ClassID, SchoolID, ClassName, Period, Teacher) VALUES ('${id},' '${schoolID},' '${className},' '${period},' '$teacher{}')`;
+    db.run(add, [], err => {
+        if (err) console.error(err);
+
+        console.log("Classroom added to database")
+    });
+}
+
 exports.login = (un,pw) => {
     return new Promise( (resolve, reject) => {
         const auth = `SELECT Username, Password FROM USERS WHERE Username = '${un}' AND Password = '${pw}'`
