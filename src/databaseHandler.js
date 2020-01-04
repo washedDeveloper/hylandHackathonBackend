@@ -61,7 +61,7 @@ exports.createUser = (un, pw, name, em, schoolID, schoolName, schoolAddress)=>{
     const add = `INSERT INTO USERS (UserID, UserName, Password, Name, Email, SchoolID) VALUES ('${id}', '${un}', '${pw}', '${name}', '${email}', '${schoolID}')`;
     db.run(add, [], (err) => {
         if(err){
-            console.log(err.message)
+            return console.log(err.message)
         }
 
         console.log("New User Created!");
@@ -69,7 +69,7 @@ exports.createUser = (un, pw, name, em, schoolID, schoolName, schoolAddress)=>{
 
     const schoolAdd = `INSERT INTO SCHOOLS (SchoolID, Name, Address) VALUES ('${schoolID}', '${schoolName}', '${schoolAddress}')`;
     db.run(schoolAdd, [], err => {
-        if (err) console.error(err);
+        if (err) return console.error(err);
 
         console.log("School added to database")
     });

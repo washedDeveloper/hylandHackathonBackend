@@ -12,7 +12,7 @@ routes.get("/:classID", (req,res) =>{
 })
 
 routes.post("/:classID", (req, res) => {
-    dbhandler.createAssignment(req.params.classID, req.body.userID, req.body.title, req.body.description).then((result) => {
+    dbhandler.createAssignment(req.params.ClassID, req.body.UserID, req.body.Title, req.body.Description).then((result) => {
         res.status(200).json({message : "Assignment Creation Was Successful"});
         console.log(result);
     }).catch(()=>{
@@ -22,7 +22,7 @@ routes.post("/:classID", (req, res) => {
 })
 
 routes.delete("/:classID", (req, res) => {
-    dbhandler.removeAssignment(req.params.classID, req.body.assignmentID).then(()=>{
+    dbhandler.removeAssignment(req.params.classID, req.body.AssignmentID).then(()=>{
         res.status(200).json({message : "Successfully Removed Assignment"});
     }).catch(()=>{
         res.status(404).json({message : "Failed to Remove Assignment"});
