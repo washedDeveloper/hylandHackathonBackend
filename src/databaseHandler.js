@@ -93,7 +93,7 @@ exports.login = (un,pw) => {
                 reject()
             }
             if(row){
-                resolve()
+                resolve(row)
             }else{
                 reject()
             }
@@ -119,11 +119,35 @@ exports.getAssignments = (classID) => {
 }
 
 
-exports.createAssignment = (classID, userID) => {
+exports.createAssignment = (classID, userID, title, description) => {
     return new Promise((resolve, reject) => {
         const assignmentId = uuid();
         const currentDate = Date.now()
-        resolve(currentDate)
-        const add = `INSERT INTO ASSIGNMENTS (assignmentId, '${classID}', '${userID}', DateCreated, DueDate, Title, Description)`
+        console.log(currentDate)
+        const add = `INSERT INTO ASSIGNMENTS (AssignmentID, ClassID, UserCreatedID, DateCreated, DueDate, Title, Description) VALUES ('${assignmentId}', '${classID}', '${userID}', '${currentDate}', '${currentDate}', '${title}', '${description}')`
+        db.run(add, [], (err)=>{
+            if(err){
+                reject()
+                return console.error(err.message)
+            }else{
+                console.log("Successfully Created Assignmnt")
+                resolve(add)
+            }
+        })
+    })
+}
+
+exports.removeAssignment = (classID, assignmentId) => {
+    return new Promise((resolve, reject) => {
+        const remove = `DELETE FROM ASSIGNMENTS WHERE ClassID = '${classID}' AND AssignmentID = '${assignmentId}'`
+        db.run(remove,[],(err)=> {
+            if (err){
+                reject()
+                return console.error(err.message)
+            }else{
+                resolve()
+                console.log("Successfully Removed Assignment")
+            }
+        })
     })
 }
