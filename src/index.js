@@ -13,6 +13,7 @@ const create = require("./routes/profileroutes/create");
 
 // Data routes
 const personData = require("./routes/databaseroutes/personData");
+const classAssignments = require("./routes/databaseroutes/assignments");
 
 //Middleware Body Parser
 app.use(express.json());
@@ -28,5 +29,8 @@ app.use("/create", create);
 
 // Get personal data route
 app.use("/user", personData);
+
+//Get assignments by class
+app.use("/assignments", classAssignments);
 
 app.listen(3000);
