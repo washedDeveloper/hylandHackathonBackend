@@ -23,7 +23,6 @@ exports.createUser = (un, pw, name, em,schoolID)=>{
     const id = uuid();
     const email = encodeURI(em);
     const add = `INSERT INTO USERS (UserID, UserName, Password, Name, Email, SchoolID) VALUES ('${id}', '${un}', '${pw}', '${name}', '${email}', '${schoolID}')`;
-    console.log(add);
     db.run(add, [], (err) => {
         if(err){
             console.log(err.message)
