@@ -13,3 +13,5 @@ routes.post("/createIssue", (req, res) => {
     dbhandler.createIssue(req.body.ClassID, req.body.UserID, req.body.Title, req.body.Description);
     res.status(200).json({ message: "Issue sent to database" });
 });
+
+module.exports = routes;

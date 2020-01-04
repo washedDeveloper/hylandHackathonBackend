@@ -8,3 +8,5 @@ routes.post("/:classID", (req,res)=>{
         res.status(404).json({message : "Failed To Create URL"});
     })
 });
+
+module.exports = routes;
