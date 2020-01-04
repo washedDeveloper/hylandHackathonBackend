@@ -42,3 +42,13 @@ exports.createUser = (un, pw, name, em,schoolID)=>{
     });
 }
 
+exports.createSchool = (id, name, address) => {
+    const update = `UPDATE SCHOOLS SET Name = '${name}', Address = '${address}' WHERE SchoolID = '${id}'`;
+
+    db.run(update, [], err => {
+        if (err) console.error(err.message);
+
+        console.log("New School Added");
+    });
+}
+

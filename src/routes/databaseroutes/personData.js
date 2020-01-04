@@ -11,7 +11,7 @@ routes.get('/:userID', async (req, res) => {
       email: userData.Email
     }
 
-    //dbhandler.getUserSchool(userData.SchoolID);
+    dbhandler.getUserSchool(userData.SchoolID);
 
     console.log(userDetails);
     res.status(200).send({ userDetails });
