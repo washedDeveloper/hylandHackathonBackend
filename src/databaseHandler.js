@@ -214,3 +214,36 @@ exports.getLink = (classID) => {
     })
 
 }
+
+exports.getMessages = (classID, userID) => {
+    return new Promise((resolve, reject) => {
+        const get = `SELECT MessageID, ClassID, UserID, Message, DateCreated FROM MESSAGES WHERE ClassID = '${classID}'`
+        db.all(get, (err,rows) => {
+            if (err){
+                console.log(err.message);
+                reject()
+            }else{
+                console.log("Successfully Retrived Messages")
+                resolve(rows)
+            }
+        })
+    })  
+}
+
+exports.createMessage = (classID, userID, content) => {
+    return new Promise((resolve, reject) => {
+        const messageID = uuid()
+        const dateCreated = Date.now()
+        const create = `INSERT INTO MESSAGES (MessageID, ClassID, UserID, Message, DateCreated) VALUES ('${messageID}', '${classID}', '${userID}', '${content}', '${dateCreated}')`
+    
+        db.run(create, [], (err) => {
+            if(err){
+                console.log(err.message);
+                reject()
+            }else{
+                console.log("Successfully Created Message")
+                resolve()
+            }
+        })
+    })
+}

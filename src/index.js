@@ -20,6 +20,8 @@ const classes = require("./routes/databaseroutes/class");
 const notes = require("./routes/databaseroutes/notes");
 const link = require("./routes/databaseroutes/links");
 
+const messages = require("./routes/databaseroutes/messages");
+
 
 //Middleware Body Parser
 app.use(express.json());
@@ -48,7 +50,10 @@ app.use("/class", classes);
 // Route to add notes
 app.use("/note", notes);
 
-//
+//Route to add link
 app.use("/link", link);
+
+//Route to get messages
+app.use("/messages", messages);
 
 app.listen(3000);
