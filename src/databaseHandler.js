@@ -12,11 +12,20 @@ exports.getUserData = async (id) => {
         const get = `SELECT UserID,Username,Password,Name,Email,SchoolID FROM USERS WHERE UserID = '${id}'`;
         db.all(get,(err,rows)=>{
             if(err){
-                return console.error(err);
+                reject(err);
             }
             //console.log(rows);
-            resolve(rows);
+            resolve(rows[0]);
         });
+    });
+}
+
+exports.getUserSchool = (userSchoolID) => {
+    const get = `SELECT Name,Address FROM SCHOOLS WHERE SchoolID = '${userSchoolID}'`;
+    db.get(get, [], (err, row) => {
+        if (err) return console.error(err);
+
+        console.log(row);
     });
 }
 
