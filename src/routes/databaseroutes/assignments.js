@@ -12,9 +12,8 @@ routes.get("/:classID", (req,res) =>{
 })
 
 routes.post("/:classID", (req, res) => {
-    dbhandler.createAssignment(req.params.ClassID, req.body.UserID, req.body.Title, req.body.Description).then((result) => {
+    dbhandler.createAssignment(req.params.classID, req.body.UserID, req.body.Title, req.body.Description).then(() => {
         res.status(200).json({message : "Assignment Creation Was Successful"});
-        console.log(result);
     }).catch(()=>{
         res.status(404).json({ message : "Assignment Creation Failed" });
         console.log("Assignment Creation Failed");
