@@ -1,22 +1,23 @@
 const sqlite3 = require('sqlite3').verbose();
 const uuid = require("uuid/v4");
 // Open the database
-const db = new sqlite3.Database('C:/Users/pbrop/Desktop/backend/src/db/database.db', (err) => {
+const db = new sqlite3.Database('C:/Users/DINO BLOOD BATHS/Desktop/hackathonBackend/src/db/database.db', (err) => {
     if(err){
         console.log(err);
     }
 });
 
-exports.getUserData = (id) => {
-    const get = `SELECT UserID,Username,Password,Name,Email,SchoolID FROM USERS WHERE UserID = '${id}'`;
-    db.all(get,(err,rows)=>{
-        if(err){
-            return console.error(err);
-        }
-        rows.forEach(row => {
-            console.log(row);
+exports.getUserData = async (id) => {
+    return new Promise( (resolve, reject) => {
+        const get = `SELECT UserID,Username,Password,Name,Email,SchoolID FROM USERS WHERE UserID = '${id}'`;
+        db.all(get,(err,rows)=>{
+            if(err){
+                return console.error(err);
+            }
+            //console.log(rows);
+            resolve(rows);
         });
-    })
+    });
 }
 
 exports.createUser = (un, pw, name, em,schoolID)=>{
