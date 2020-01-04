@@ -76,7 +76,7 @@ exports.createUser = (un, pw, name, em, schoolID, schoolName, schoolAddress)=>{
 
 exports.createClass = (schoolID, className, period, teacher) => {
     const id = uuid();
-    const add = `INSERT INTO CLASSROOM (ClassID, SchoolID, ClassName, Period, Teacher) VALUES ('${id},' '${schoolID},' '${className},' '${period},' '$teacher{}')`;
+    const add = `INSERT INTO CLASSROOM (ClassID, SchoolID, ClassName, Period, Teacher) VALUES ('${id},' '${schoolID},' '${className},' '${period},' '${teacher}')`;
     db.run(add, [], err => {
         if (err) console.error(err);
 
