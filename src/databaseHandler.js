@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const uuid = require("uuid/v4");
 // Open the database
-const db = new sqlite3.Database('C:/Users/pbrop/Desktop/backend/src/db/database.db', (err) => {
+const db = new sqlite3.Database('C:/Users/DINO BLOOD BATHS/Desktop/hackathonBackend/src/db/database.db', (err) => {
     if(err){
         console.error(err);
     }
@@ -210,9 +210,11 @@ exports.getLink = (classID) => {
             }else{
                 resolve(rows)
             }
-        })
-    })
+        });
+    });
+}
 
+<<<<<<< HEAD
 }
 
 exports.getMessages = (classID, userID) => {
@@ -246,4 +248,41 @@ exports.createMessage = (classID, userID, content) => {
             }
         })
     })
+=======
+exports.createIssue = (classID, userID, title, description) => {
+    const issueID = uuid();
+    const date = Date.now();
+    const add = `INSERT INTO ISSUES (IssueID, ClassID, UserCreatedId, Title, Description, DateCreated) VALUES ('${issueID}', '${classID}', '${userID}', '${title}', '${description}', '${date}')`;
+    
+    db.run(add, [], err => {
+        if (err)
+            console.error(err);
+        else
+            console.log("Issue with id of " + issueID + " in database");
+    });
+}
+
+exports.getIssuePost = (issueID) => {
+    return new Promise((resolve, reject) => {
+        const get = `SELECT ClassID, UserCreatedID, Title, Description, DateCreated FROM ISSUES WHERE IssueID = '${issueID}'`;
+        db.get(get, [], (err, row) => {
+            if (err)
+                reject(err);
+            else
+                resolve(row);
+        });
+    });
+}
+
+exports.getIssueComments = (issueID) => {
+    return new Promise((resolve, reject) => {
+        const get = `SELECT IssueCommentID, IssueID, ReplyParentID, UserCreatedID, DateCreated, Message FROM ISSUECOMMENTS WHERE IssueID = '${issueID}'`;
+        db.all(get, (err, rows) => {
+            if (err)
+                reject(err);
+            else
+                resolve(rows);
+        });
+    });
+>>>>>>> 65a066414f39fdbe5a0e1a64318c8c7c4ea038c0
 }
