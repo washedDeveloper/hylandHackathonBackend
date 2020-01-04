@@ -214,9 +214,6 @@ exports.getLink = (classID) => {
     });
 }
 
-<<<<<<< HEAD
-}
-
 exports.getMessages = (classID, userID) => {
     return new Promise((resolve, reject) => {
         const get = `SELECT MessageID, ClassID, UserID, Message, DateCreated FROM MESSAGES WHERE ClassID = '${classID}'`
@@ -248,7 +245,7 @@ exports.createMessage = (classID, userID, content) => {
             }
         })
     })
-=======
+}
 exports.createIssue = (classID, userID, title, description) => {
     const issueID = uuid();
     const date = Date.now();
@@ -284,5 +281,4 @@ exports.getIssueComments = (issueID) => {
                 resolve(rows);
         });
     });
->>>>>>> 65a066414f39fdbe5a0e1a64318c8c7c4ea038c0
 }
