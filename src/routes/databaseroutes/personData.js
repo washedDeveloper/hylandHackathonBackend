@@ -32,9 +32,10 @@ routes.get('/:userID', async (req, res) => {
       console.log("SCHEDULE DATA:");
       console.log(scheduleData);
       for (let row of scheduleData) {
-        classPromises.push(dbhandler.getClassData(row.ClassID));
+        const classId = row.ClassID;
+        classPromises.push(dbhandler.getClassData(classId));
         // TODO: IMPLEMENT BELOW
-        classPromises.push(dbhandler.getAssignments(row.ClassID));
+        classPromises.push(dbhandler.getAssignments(classId));
       }
 
       Promise.all(classPromises).then( values => {

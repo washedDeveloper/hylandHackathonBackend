@@ -1,9 +1,9 @@
 const sqlite3 = require('sqlite3').verbose();
 const uuid = require("uuid/v4");
 // Open the database
-const db = new sqlite3.Database('C:/Users/pbrop/Desktop/backend/src/db/database.db', (err) => {
+const db = new sqlite3.Database('C:/Users/DINO BLOOD BATHS/Desktop/hackathonBackend/src/db/database.db', (err) => {
     if(err){
-        console.log(err);
+        console.error(err);
     }
 });
 
@@ -33,10 +33,11 @@ exports.getUserSchool = (userSchoolID) => {
 
 exports.getUserSchedule = (id) => {
     return new Promise( (resolve, reject) => {
-        const get = `SELECT ClassID FROM USERSCHEDULE WHERE UserID = '${id}'`;
+        const get = `SELECT ClassID, UserID FROM USERSCHEDULE WHERE UserID = '${id}'`;
         db.all(get, (err, rows) => {
             if (err) reject(err);
-
+            console.log("SCHEDULE ROWS:");
+            console.log(rows);
             resolve(rows);
         });
     })
@@ -44,7 +45,7 @@ exports.getUserSchedule = (id) => {
 
 exports.getClassData = (classID) => {
     return new Promise( (resolve, reject) => {
-        const get = `SELECT ClassID, ClassName, Period, Teacher FROM CLASSROOM WHERE SchoolID = ${classID}`;
+        const get = `SELECT ClassID, ClassName, Period, Teacher FROM CLASSROOM WHERE ClassID = '${classID}'`;
         db.get(get, [], (err, row) => {
             if (err) reject(err);
             
@@ -76,9 +77,10 @@ exports.createUser = (un, pw, name, em, schoolID, schoolName, schoolAddress)=>{
 
 exports.createClass = (schoolID, className, period, teacher) => {
     const id = uuid();
-    const add = `INSERT INTO CLASSROOM (ClassID, SchoolID, ClassName, Period, Teacher) VALUES ('${id},' '${schoolID},' '${className},' '${period},' '${teacher}')`;
+    const add = `INSERT INTO CLASSROOM (ClassID, SchoolID, ClassName, Period, Teacher) VALUES ('${id}', '${schoolID}', '${className}', '${period}', '${teacher}')`;
     db.run(add, [], err => {
         if (err) console.error(err);
+        console.log(id); // REMOVE LATER
 
         console.log("Classroom added to database")
     });
@@ -129,7 +131,7 @@ exports.createAssignment = (classID, userID) => {
 }
 
 exports.addScheduledClass = (classID, userID) => {
-    const add = `INSERT INTO USERSCHEDULE (UserID, ClassID) VALUES ('${classID}', '${userID}')`;
+    const add = `INSERT INTO USERSCHEDULE (UserID, ClassID) VALUES ('${userID}', '${classID}')`;
     db.run(add, [], err => {
         if (err) console.error(err);
 
