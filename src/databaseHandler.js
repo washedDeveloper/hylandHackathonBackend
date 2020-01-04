@@ -21,16 +21,41 @@ exports.getUserData = async (id) => {
 }
 
 exports.getUserSchool = (userSchoolID) => {
-    const get = `SELECT Name,Address FROM SCHOOLS WHERE SchoolID = '${userSchoolID}'`;
-    db.get(get, [], (err, row) => {
-        if (err) return console.error(err);
-
-        console.log(row);
+    return new Promise( (resolve, reject) => {
+        const get = `SELECT SchoolID, Name, Address FROM SCHOOLS WHERE SchoolID = ${userSchoolID}`;
+        db.get(get, [], (err, row) => {
+            if (err) reject(err);
+            
+            resolve(row);
+        });
     });
 }
 
-exports.createUser = (un, pw, name, em,schoolID)=>{
+exports.getUserSchedule = (id) => {
+    return new Promise( (resolve, reject) => {
+        const get = `SELECT ClassID FROM USERSCHEDULE WHERE UserID = '${id}'`;
+        db.all(get, (err, rows) => {
+            if (err) reject(err);
+
+            resolve(rows);
+        });
+    })
+}
+
+exports.getClassData = (classID) => {
+    return new Promise( (resolve, reject) => {
+        const get = `SELECT ClassID, ClassName, Period, Teacher FROM CLASSROOM WHERE SchoolID = ${classID}`;
+        db.get(get, [], (err, row) => {
+            if (err) reject(err);
+            
+            resolve(row);
+        });
+    });
+}
+
+exports.createUser = (un, pw, name, em, schoolID, schoolName, schoolAddress)=>{
     const id = uuid();
+    console.log(id); // DELETE LATER
     const email = encodeURI(em);
     const add = `INSERT INTO USERS (UserID, UserName, Password, Name, Email, SchoolID) VALUES ('${id}', '${un}', '${pw}', '${name}', '${email}', '${schoolID}')`;
     db.run(add, [], (err) => {
@@ -40,17 +65,25 @@ exports.createUser = (un, pw, name, em,schoolID)=>{
 
         console.log("New User Created!");
     });
-}
 
-exports.createSchool = (id, name, address) => {
-    const update = `UPDATE SCHOOLS SET Name = '${name}', Address = '${address}' WHERE SchoolID = '${id}'`;
+    const schoolAdd = `INSERT INTO SCHOOLS (SchoolID, Name, Address) VALUES ('${schoolID}', '${schoolName}', '${schoolAddress}')`;
+    db.run(schoolAdd, [], err => {
+        if (err) console.error(err);
 
-    db.run(update, [], err => {
-        if (err) console.error(err.message);
-
-        console.log("New School Added");
+        console.log("School added to database")
     });
 }
+
+exports.createClass = (schoolID, className, period, teacher) => {
+    const id = uuid();
+    const add = `INSERT INTO CLASSROOM (ClassID, SchoolID, ClassName, Period, Teacher) VALUES ('${id},' '${schoolID},' '${className},' '${period},' '${teacher}')`;
+    db.run(add, [], err => {
+        if (err) console.error(err);
+
+        console.log("Classroom added to database")
+    });
+}
+
 exports.login = (un,pw) => {
     return new Promise( (resolve, reject) => {
         const auth = `SELECT Username, Password FROM USERS WHERE Username = '${un}' AND Password = '${pw}'`
@@ -60,10 +93,61 @@ exports.login = (un,pw) => {
                 reject()
             }
             if(row){
-                resolve()
+                resolve(row)
             }else{
                 reject()
             }
         })
     });
+}
+
+exports.getAssignments = (classID) => {
+    return new Promise((resolve, reject) => {
+        const assignments = `SELECT AssignmentID, ClassID, UserCreatedID, DateCreated, DueDate, Title, Description FROM ASSIGNMENTS WHERE ClassID = '${classID}'`;
+        db.all(assignments,(err, row) => {
+            if(err){
+                console.error(err);
+                reject();
+            }
+            if(row){
+                resolve(row)
+            }else{
+                reject()
+            }
+        })
+    })
+}
+
+
+exports.createAssignment = (classID, userID, title, description) => {
+    return new Promise((resolve, reject) => {
+        const assignmentId = uuid();
+        const currentDate = Date.now()
+        console.log(currentDate)
+        const add = `INSERT INTO ASSIGNMENTS (AssignmentID, ClassID, UserCreatedID, DateCreated, DueDate, Title, Description) VALUES ('${assignmentId}', '${classID}', '${userID}', '${currentDate}', '${currentDate}', '${title}', '${description}')`
+        db.run(add, [], (err)=>{
+            if(err){
+                reject()
+                return console.error(err.message)
+            }else{
+                console.log("Successfully Created Assignmnt")
+                resolve(add)
+            }
+        })
+    })
+}
+
+exports.removeAssignment = (classID, assignmentId) => {
+    return new Promise((resolve, reject) => {
+        const remove = `DELETE FROM ASSIGNMENTS WHERE ClassID = '${classID}' AND AssignmentID = '${assignmentId}'`
+        db.run(remove,[],(err)=> {
+            if (err){
+                reject()
+                return console.error(err.message)
+            }else{
+                resolve()
+                console.log("Successfully Removed Assignment")
+            }
+        })
+    })
 }
