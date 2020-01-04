@@ -43,17 +43,8 @@ routes.get('/:userID', async (req, res) => {
       userDetails.Classes = classesArr;
     });
 
-    // dbhandler.getUserSchool(userData.SchoolID).then( schoolData => {
-    //   userDetails.School = {
-    //     Name: schoolData.Name,
-    //     Address: schoolData.Address
-    //   }
-    // }).catch( err => {
-    //   console.error(err);
-    // });
-
     console.log(userDetails);
-    res.status(200).send({ userData });
+    res.status(200).send({ userDetails });
 
   }).catch( err => {
     console.error(err);
