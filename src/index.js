@@ -27,6 +27,6 @@ app.use("/login", login);
 app.use("/create", create);
 
 // Get personal data route
-app.use("/person-data", personData);
+app.use("/user", personData);
 
 app.listen(3000);
