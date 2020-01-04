@@ -8,7 +8,7 @@ const db = new sqlite3.Database('C:/Users/pbrop/Desktop/backend/src/db/database.
 });
 
 exports.getUserData = (id) => {
-    const get = `SELECT UserID FROM USERS WHERE UserID = '${id}'`;
+    const get = `SELECT UserID,Username,Password,Name,Email,SchoolID FROM USERS WHERE UserID = '${id}'`;
     db.all(get,(err,rows)=>{
         if(err){
             return console.error(err);
