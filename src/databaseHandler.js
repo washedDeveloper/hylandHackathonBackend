@@ -127,3 +127,12 @@ exports.createAssignment = (classID, userID) => {
         const add = `INSERT INTO ASSIGNMENTS (assignmentId, '${classID}', '${userID}', DateCreated, DueDate, Title, Description)`
     })
 }
+
+exports.addScheduledClass = (classID, userID) => {
+    const add = `INSERT INTO USERSCHEDULE (UserID, ClassID) VALUES ('${classID}', '${userID}')`;
+    db.run(add, [], err => {
+        if (err) console.error(err);
+
+        console.log("Class scheduled for user " + userID);
+    });
+}

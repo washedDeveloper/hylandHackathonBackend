@@ -10,7 +10,6 @@ routes.get('/:userID', async (req, res) => {
       name: userData.Name,
       email: userData.Email
     }
-
     
     const schoolPromise = dbhandler.getUserSchool(userData.SchoolID);
     const schedulePromise = dbhandler.getUserSchedule(req.params.userID);
@@ -35,7 +34,7 @@ routes.get('/:userID', async (req, res) => {
       for (let row of scheduleData) {
         classPromises.push(dbhandler.getClassData(row.ClassID));
         // TODO: IMPLEMENT BELOW
-        //classPromises.push(dbhandler.getAssignments(row.ClassID));
+        classPromises.push(dbhandler.getAssignments(row.ClassID));
       }
 
       Promise.all(classPromises).then( values => {
