@@ -67,3 +67,30 @@ exports.login = (un,pw) => {
         })
     });
 }
+
+exports.getAssignments = (classID) => {
+    return new Promise((resolve, reject) => {
+        const assignments = `SELECT AssignmentID, ClassID, UserCreatedID, DateCreated, DueDate, Title, Description FROM ASSIGNMENTS WHERE ClassID = '${classID}'`;
+        db.all(assignments,(err, row) => {
+            if(err){
+                console.error(err);
+                reject();
+            }
+            if(row){
+                resolve(row)
+            }else{
+                reject()
+            }
+        })
+    })
+}
+
+
+exports.createAssignment = (classID, userID) => {
+    return new Promise((resolve, reject) => {
+        const assignmentId = uuid();
+        const currentDate = Date.now()
+        resolve(currentDate)
+        const add = `INSERT INTO ASSIGNMENTS (assignmentId, '${classID}', '${userID}', DateCreated, DueDate, Title, Description)`
+    })
+}
