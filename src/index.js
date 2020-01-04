@@ -50,18 +50,16 @@ app.use("/class", classes);
 // Route to add notes
 app.use("/note", notes);
 
-<<<<<<< HEAD
 //Route to add link
 app.use("/link", link);
 
 //Route to get messages
 app.use("/messages", messages);
-=======
+
 // Route to add and access links
 app.use("/link", link);
 
 // Route to view and create issue posts
 app.use("/issue", issues);
->>>>>>> 65a066414f39fdbe5a0e1a64318c8c7c4ea038c0
 
 app.listen(3000);
