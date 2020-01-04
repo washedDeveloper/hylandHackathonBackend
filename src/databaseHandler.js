@@ -10,12 +10,12 @@ const db = new sqlite3.Database('C:/Users/pbrop/Desktop/backend/src/db/database.
 exports.getUserData = async (id) => {
     return new Promise( (resolve, reject) => {
         const get = `SELECT UserID,Username,Password,Name,Email,SchoolID FROM USERS WHERE UserID = '${id}'`;
-        db.all(get,(err,rows)=>{
+        db.get(get,[],(err,rows)=>{
             if(err){
                 reject(err);
             }
             //console.log(rows);
-            resolve(rows[0]);
+            resolve(rows);
         });
     });
 }
