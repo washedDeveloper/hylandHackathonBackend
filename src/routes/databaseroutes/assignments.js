@@ -5,7 +5,7 @@ const dbhandler = require("../../databaseHandler");
 routes.get("/:classID", (req,res) =>{
     dbhandler.getAssignments(req.params.classID).then((assignments) =>{
         console.log(assignments);
-        res.status(200).json(assignments);
+        res.status(200).json({assignments});
     }).catch(()=>{
         res.status(404).json({message : "Could Not Retrive Assignments"})
     })

@@ -10,7 +10,6 @@ routes.get('/:userID', async (req, res) => {
       name: userData.Name,
       email: userData.Email
     }
-
     
     const schoolPromise = dbhandler.getUserSchool(userData.SchoolID);
     const schedulePromise = dbhandler.getUserSchedule(req.params.userID);
@@ -23,19 +22,15 @@ routes.get('/:userID', async (req, res) => {
         name: schoolData.Name,
         address: schoolData.Address
       }
-      console.log("AFTER SCHOOL:")
-      console.log(userDetails);
 
       // handle schdule data
       const classesArr = [];
       const classPromises = [];
 
-      console.log("SCHEDULE DATA:");
-      console.log(scheduleData);
       for (let row of scheduleData) {
-        classPromises.push(dbhandler.getClassData(row.ClassID));
-        // TODO: IMPLEMENT BELOW
-        //classPromises.push(dbhandler.getAssignments(row.ClassID));
+        const classId = row.ClassID;
+        classPromises.push(dbhandler.getClassData(classId));
+        classPromises.push(dbhandler.getAssignments(classId));
       }
 
       Promise.all(classPromises).then( values => {
@@ -46,20 +41,17 @@ routes.get('/:userID', async (req, res) => {
             assignments: values[i + 1]
           });
         }
-        console.log("AFTER CLASSES");
-        console.log(userDetails);
+
+        userDetails.Classes = classesArr;
+
+        // Send user's information to client
+        res.status(200).send({ userDetails });
       }).catch(err => {
         console.error(err);
       });
-
-      userDetails.Classes = classesArr;
     }).catch(err => {
       console.error(err);
     });
-
-    console.log(userDetails);
-    res.status(200).send({ userDetails });
-
   }).catch( err => {
     console.error(err);
   });
