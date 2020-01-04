@@ -6,15 +6,22 @@ routes.get('/:userID', async (req, res) => {
   dbhandler.getUserData(req.params.userID).then( userData => {
 
     const userDetails = {
-      username: userData.Username,
-      name: userData.Name,
-      email: userData.Email
+      Username: userData.Username,
+      Name: userData.Name,
+      Email: userData.Email
     }
 
-    dbhandler.getUserSchool(userData.SchoolID);
+    dbhandler.getUserSchool(userData.SchoolID).then( schoolData => {
+      userDetails.School = {
+        Name: schoolData.Name,
+        Address: schoolData.Address
+      }
+    }).catch( err => {
+      console.error(err);
+    });
 
     console.log(userDetails);
-    res.status(200).send({ userDetails });
+    res.status(200).send({ userData });
 
   }).catch( err => {
     console.error(err);
