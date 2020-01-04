@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 
+// Database handling file
+const db = require("./databaseHandler");
+
 // Main routes file
 const routes = require("./routes/index");
 
