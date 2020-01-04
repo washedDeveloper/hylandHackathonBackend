@@ -210,7 +210,19 @@ exports.getLink = (classID) => {
             }else{
                 resolve(rows)
             }
-        })
-    })
+        });
+    });
+}
 
+exports.createIssue = (classID, userID, title, description) => {
+    const issueID = uuid();
+    const date = Date.now();
+    const add = `INSERT INTO ISSUES (IssueID, ClassID, UserCreatedId, Title, Description, DateCreated) VALUES ('${issueID}', '${classID}', '${userID}', '${title}', '${description}', '${date}')`;
+    
+    db.run(add, [], err => {
+        if (err)
+            console.error(err);
+        else
+            console.log("Issue with id of " + issueID + " in database");
+    });
 }
