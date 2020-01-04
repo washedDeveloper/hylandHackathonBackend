@@ -6,19 +6,51 @@ routes.get('/:userID', async (req, res) => {
   dbhandler.getUserData(req.params.userID).then( userData => {
 
     const userDetails = {
-      Username: userData.Username,
-      Name: userData.Name,
-      Email: userData.Email
+      username: userData.Username,
+      name: userData.Name,
+      email: userData.Email
     }
 
-    dbhandler.getUserSchool(userData.SchoolID).then( schoolData => {
+    const schoolPromise = dbhandler.getUserSchool(userData.SchoolID);
+    const schedulePromise = dbhandler.getUserSchedule(req.params.userID);
+
+    Promise.all([schoolPromise, schedulePromise]).then( values => {
+      [schoolData, scheduleData] = values;
+
+      // handle school data
       userDetails.School = {
-        Name: schoolData.Name,
-        Address: schoolData.Address
+        name: schoolData.Name,
+        address: schoolData.Address
       }
-    }).catch( err => {
-      console.error(err);
+
+      // handle schdule data
+      const classesArr = [];
+      const classPromises = [];
+
+      for (let row of scheduleData) {
+        classPromises.push(dbhandler.getClassData(row.ClassID));
+      }
+
+      Promise.all(classPromises).then( values => {
+        for (let i of values) {
+          classesArr.push({
+            classID: i.ClassID,
+            className: i.ClassName
+          });
+        }
+      });
+
+      userDetails.Classes = classesArr;
     });
+
+    // dbhandler.getUserSchool(userData.SchoolID).then( schoolData => {
+    //   userDetails.School = {
+    //     Name: schoolData.Name,
+    //     Address: schoolData.Address
+    //   }
+    // }).catch( err => {
+    //   console.error(err);
+    // });
 
     console.log(userDetails);
     res.status(200).send({ userData });

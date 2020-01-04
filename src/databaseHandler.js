@@ -31,6 +31,28 @@ exports.getUserSchool = (userSchoolID) => {
     });
 }
 
+exports.getUserSchedule = (id) => {
+    return new Promise( (resolve, reject) => {
+        const get = `SELECT ClassID FROM USERSCHEDULE WHERE UserID = ${id}`;
+        db.all(get, (err, rows) => {
+            if (err) reject(err);
+
+            resolve(rows);
+        });
+    })
+}
+
+exports.getClassData = (classID) => {
+    return new Promise( (resolve, reject) => {
+        const get = `SELECT ClassID, ClassName, Period, Teacher FROM CLASSROOM WHERE SchoolID = ${classID}`;
+        db.get(get, [], (err, row) => {
+            if (err) reject(err);
+            
+            resolve(row);
+        });
+    });
+}
+
 exports.createUser = (un, pw, name, em, schoolID, schoolName, schoolAddress)=>{
     const id = uuid();
     console.log(id); // DELETE LATER
