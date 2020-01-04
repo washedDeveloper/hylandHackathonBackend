@@ -16,9 +16,9 @@ const personData = require("./routes/databaseroutes/personData");
 const classAssignments = require("./routes/databaseroutes/assignments");
 const userSchedule = require("./routes/databaseroutes/schedule");
 const classes = require("./routes/databaseroutes/class");
-
 const notes = require("./routes/databaseroutes/notes");
 const link = require("./routes/databaseroutes/links");
+const issues = require("./routes/databaseroutes/issues");
 
 
 //Middleware Body Parser
@@ -48,7 +48,10 @@ app.use("/class", classes);
 // Route to add notes
 app.use("/note", notes);
 
-//
+// Route to add and access links
 app.use("/link", link);
+
+// Route to view and create issue posts
+app.use("/issue", issues);
 
 app.listen(3000);

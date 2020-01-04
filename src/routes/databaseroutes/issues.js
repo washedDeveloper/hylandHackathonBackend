@@ -2,10 +2,10 @@ const routes = require('express').Router();
 const dbhandler = require("../../databaseHandler");
 
 routes.get("/:issueID", (req ,res) => {
-    .then( () => {
-        res.status(200).json({message : "Successfully Created URL"});
+    dbhandler.getIssuePost.then( () => {
+        res.status(200).json({message : "Successfully found issue at ID"});
     }).catch( () => {
-        res.status(404).json({message : "Failed To Create URL"});
+        res.status(404).json({message : "Failed to find issue at ID"});
     })
 });
 
