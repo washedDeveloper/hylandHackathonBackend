@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 
+// Database handling file
+const db = require("./databaseHandler");
+
 // Main routes file
 const routes = require("./routes/index");
 
@@ -10,6 +13,9 @@ const create = require("./routes/profileroutes/create");
 
 // Data routes
 const personData = require("./routes/databaseroutes/personData");
+
+//Middleware Body Parser
+app.use(express.json());
 
 // Default route
 app.use("/", routes);
