@@ -226,3 +226,27 @@ exports.createIssue = (classID, userID, title, description) => {
             console.log("Issue with id of " + issueID + " in database");
     });
 }
+
+exports.getIssuePost = (issueID) => {
+    return new Promise((resolve, reject) => {
+        const get = `SELECT ClassID, UserCreatedID, Title, Description, DateCreated FROM ISSUES WHERE IssueID = '${issueID}'`;
+        db.get(get, [], (err, row) => {
+            if (err)
+                reject(err);
+            else
+                resolve(row);
+        });
+    });
+}
+
+exports.getIssueComments = (issueID) => {
+    return new Promise((resolve, reject) => {
+        const get = `SELECT IssueCommentID, IssueID, ReplyParentID, UserCreatedID, DateCreated, Message FROM ISSUECOMMENTS WHERE IssueID = '${issueID}'`;
+        db.all(get, (err, rows) => {
+            if (err)
+                reject(err);
+            else
+                resolve(rows);
+        });
+    });
+}
