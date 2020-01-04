@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const uuid = require("uuid/v4");
 // Open the database
-const db = new sqlite3.Database('C:/Users/DINO BLOOD BATHS/Desktop/hackathonBackend/src/db/database.db', (err) => {
+const db = new sqlite3.Database('C:/Users/pbrop/Desktop/backend/src/db/database.db', (err) => {
     if(err){
         console.error(err);
     }
