@@ -5,8 +5,8 @@ routes.post('/', (req, res) => {
   const userData = req.body;
   console.log(userData);
   
-  dbHandler.addScheduledClass(userData.ClassID, userData.UserID);
-  res.json({message : "Schedule-pair sent to database"});
+  dbHandler.addNote(userData.UserID, userData.Content, userData.Title);
+  res.status(200).json({message : "Note sent to database"});
 });
 
 module.exports = routes;

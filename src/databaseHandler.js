@@ -166,7 +166,7 @@ exports.addScheduledClass = (classID, userID) => {
 
 exports.addNote = (userID, content, title) => {
     const noteID = uuid();
-    const add = `INSERT INTO NOTES (NoteID, UserID, ClassID, Contents, Title) VALUES '${noteID}', '${userID}', '${null}', '${content}', '${title}'`;
+    const add = `INSERT INTO NOTES (NoteID, UserID, ClassID, Contents, Title) VALUES ('${noteID}', '${userID}', '${null}', '${content}', '${title}')`;
     db.run(add, [], err => {
         if (err) return console.error(err);
 
