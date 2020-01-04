@@ -67,9 +67,10 @@ exports.createUser = (un, pw, name, em, schoolID, schoolName, schoolAddress)=>{
         console.log("New User Created!");
     });
 
+   
     const schoolAdd = `INSERT INTO SCHOOLS (SchoolID, Name, Address) VALUES ('${schoolID}', '${schoolName}', '${schoolAddress}')`;
     db.run(schoolAdd, [], err => {
-        if (err) console.error(err);
+        if (err) return console.error(err);
 
         console.log("School added to database")
     });
@@ -157,8 +158,29 @@ exports.removeAssignment = (classID, assignmentId) => {
 exports.addScheduledClass = (classID, userID) => {
     const add = `INSERT INTO USERSCHEDULE (UserID, ClassID) VALUES ('${userID}', '${classID}')`;
     db.run(add, [], err => {
-        if (err) console.error(err);
+        if (err) return console.error(err);
 
         console.log("Class scheduled for user " + userID);
+    });
+}
+
+exports.addNote = (userID, content, title) => {
+    const noteID = uuid();
+    const add = `INSERT INTO NOTES (NoteID, UserID, ClassID, Contents, Title) VALUES ('${noteID}', '${userID}', '${null}', '${content}', '${title}')`;
+    db.run(add, [], err => {
+        if (err) return console.error(err);
+
+        console.log("Note of id " + noteID + " added to database");
+    })
+}
+
+exports.getUserNotes = (userID) => {
+    return new Promise((resolve, reject) => {
+        const get = `SELECT NoteID, Contents, Title FROM NOTES WHERE UserID = '${userID}'`;
+        db.all(get, (err, rows) => {
+            if (err) reject(err);
+
+            resolve(rows);
+        });
     });
 }

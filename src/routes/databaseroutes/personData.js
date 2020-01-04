@@ -3,7 +3,7 @@ const routes = require('express').Router();
 const dbhandler = require("../../databaseHandler");
 routes.get('/:userID', async (req, res) => {
 
-  dbhandler.getUserData(req.params.userID).then( userData => {
+  dbhandler.getUserData(req.params.userID).then(userData => {
 
     const userDetails = {
       username: userData.Username,
@@ -44,8 +44,14 @@ routes.get('/:userID', async (req, res) => {
 
         userDetails.Classes = classesArr;
 
-        // Send user's information to client
-        res.status(200).send({ userDetails });
+        dbhandler.getUserNotes(req.params.userID).then(notes => {
+          userDetails.Notes = notes;
+          
+          // Send user's information to client
+          res.status(200).send({ userDetails });
+        }).catch(err => {
+          console.error(err);
+        });
       }).catch(err => {
         console.error(err);
       });
